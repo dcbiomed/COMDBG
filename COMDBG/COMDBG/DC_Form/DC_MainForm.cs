@@ -224,7 +224,29 @@ namespace COMDBG.DC_Form
             }
             int newLen = cmd.Length + 3;//in order to clear meter buffer
             Array.Resize(ref cmd, newLen);
+            SendCMD(btn, cmd);
         }
+
+        private void SendCMD(Button btn, Byte[] bytesBuf)
+        {
+            bool flag = false;
+            //send bytes to serial port
+            btn.Enabled = false;//wait return
+            flag = controller.SendDataToCom(bytesBuf);
+            btn.Enabled = true;
+            sendBytesCount += bytesBuf.Length;
+            if (flag)
+            {
+                statuslabel.Text = "Send OK !";
+            }
+            else
+            {
+                statuslabel.Text = "Send failed !";
+            }
+            //update status bar
+            toolStripStatusTx.Text = "Sent: " + sendBytesCount.ToString();
+        }
+
         byte[] GetFullBytes(byte[] dataBytes, CmdTable cmd)
         {
             byte[] res = dataBytes;
