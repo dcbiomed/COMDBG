@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Management;
 using System.Text;
@@ -33,12 +34,13 @@ namespace COMDBG.DC_Form
         public DC_MainForm()
         {
             InitializeComponent();
-            SearchDCDevice();
             this.statusTimeLabel.Text = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
             this.toolStripStatusTx.Text = "Sent: 0";
             this.toolStripStatusRx.Text = "Received: 0";
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+
+            this.grpBoxFlow.Enabled = false;
         }
         /// <summary>
         /// Set controller
@@ -47,6 +49,99 @@ namespace COMDBG.DC_Form
         public void SetController(IController_DC controller)
         {
             this.controller = controller;
+        }
+        /// <summary>
+        /// update status bar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OpenComEvent(Object sender, SerialPortEventArgs e)
+        {
+            if (this.InvokeRequired)
+            {
+                Invoke(new Action<Object, SerialPortEventArgs>(OpenComEvent), sender, e);
+                return;
+            }
+
+            if (e.isOpend)  //Open successfully
+            {
+                statuslabel.Text = " Opend";
+                btnSearch.Text = "Close";
+                sendbtn.Enabled = true;
+                refreshbtn.Enabled = false;
+            }
+            else    //Open failed
+            {
+                statuslabel.Text = "Open failed !";
+                sendbtn.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// update status bar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void CloseComEvent(Object sender, SerialPortEventArgs e)
+        {
+            if (this.InvokeRequired)
+            {
+                Invoke(new Action<Object, SerialPortEventArgs>(CloseComEvent), sender, e);
+                return;
+            }
+
+            if (!e.isOpend) //close successfully
+            {
+                statuslabel.Text = " Closed";
+                btnSearch.Text = "Open";
+                sendbtn.Enabled = false;
+                refreshbtn.Enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// Display received data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ComReceiveDataEvent(Object sender, SerialPortEventArgs e)
+        {
+            if (this.InvokeRequired)
+            {
+                try
+                {
+                    Invoke(new Action<Object, SerialPortEventArgs>(ComReceiveDataEvent), sender, e);
+                }
+                catch (System.Exception)
+                {
+                    //disable form destroy exception
+                }
+                return;
+            }
+            //display as hex
+            if (receivetbx.Text.Length > 0)
+            {
+                receivetbx.AppendText("-");
+            }
+            receivetbx.AppendText(IController.Bytes2Hex(e.receivedBytes));
+            //update status bar
+            receiveBytesCount += e.receivedBytes.Length;
+            toolStripStatusRx.Text = "Received: " + receiveBytesCount.ToString();
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            SearchDCDevice();
+            if (!connPortName.Equals(string.Empty))
+            {
+                controller.OpenSerialPort(connPortName, "115200", "8", StopBits.One.ToString(), Parity.None.ToString(), Handshake.None.ToString());
+                this.grpBoxFlow.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("The target device doesn't exist !", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            
         }
         private void SearchDCDevice()
         {
@@ -83,83 +178,10 @@ namespace COMDBG.DC_Form
                 }
             }
         }
-        /// <summary>
-        /// update status bar
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void OpenComEvent(Object sender, SerialPortEventArgs e)
+
+        private void DC_MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (this.InvokeRequired)
-            {
-                Invoke(new Action<Object, SerialPortEventArgs>(OpenComEvent), sender, e);
-                return;
-            }
-
-            if (e.isOpend)  //Open successfully
-            {
-                statuslabel.Text = " Opend";
-                openCloseSpbtn.Text = "Close";
-                sendbtn.Enabled = true;
-                refreshbtn.Enabled = false;
-            }
-            else    //Open failed
-            {
-                statuslabel.Text = "Open failed !";
-                sendbtn.Enabled = false;
-            }
-        }
-
-        /// <summary>
-        /// update status bar
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void CloseComEvent(Object sender, SerialPortEventArgs e)
-        {
-            if (this.InvokeRequired)
-            {
-                Invoke(new Action<Object, SerialPortEventArgs>(CloseComEvent), sender, e);
-                return;
-            }
-
-            if (!e.isOpend) //close successfully
-            {
-                statuslabel.Text = " Closed";
-                openCloseSpbtn.Text = "Open";
-                sendbtn.Enabled = false;
-                refreshbtn.Enabled = true;
-            }
-        }
-
-        /// <summary>
-        /// Display received data
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void ComReceiveDataEvent(Object sender, SerialPortEventArgs e)
-        {
-            if (this.InvokeRequired)
-            {
-                try
-                {
-                    Invoke(new Action<Object, SerialPortEventArgs>(ComReceiveDataEvent), sender, e);
-                }
-                catch (System.Exception)
-                {
-                    //disable form destroy exception
-                }
-                return;
-            }
-            //display as hex
-            if (receivetbx.Text.Length > 0)
-            {
-                receivetbx.AppendText("-");
-            }
-            receivetbx.AppendText(IController.Bytes2Hex(e.receivedBytes));
-            //update status bar
-            receiveBytesCount += e.receivedBytes.Length;
-            toolStripStatusRx.Text = "Received: " + receiveBytesCount.ToString();
+            controller.CloseSerialPort();
         }
     }
 }

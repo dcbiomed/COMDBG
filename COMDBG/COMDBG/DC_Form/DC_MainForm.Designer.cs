@@ -45,7 +45,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.refreshbtn = new System.Windows.Forms.Button();
-            this.openCloseSpbtn = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.clearReceivebtn = new System.Windows.Forms.Button();
             this.receivetbx = new System.Windows.Forms.TextBox();
@@ -56,13 +56,13 @@
             this.btnGetDeviceID = new System.Windows.Forms.Button();
             this.btnGetDataInfo = new System.Windows.Forms.Button();
             this.btnGetNthData = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.grpBoxFlow = new System.Windows.Forms.GroupBox();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.grpBoxFlow.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -186,7 +186,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.refreshbtn);
-            this.groupBox2.Controls.Add(this.openCloseSpbtn);
+            this.groupBox2.Controls.Add(this.btnSearch);
             this.groupBox2.Controls.Add(this.sendbtn);
             this.groupBox2.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.groupBox2.Location = new System.Drawing.Point(3, 32);
@@ -206,17 +206,17 @@
             this.refreshbtn.Text = "Refersh";
             this.refreshbtn.UseVisualStyleBackColor = true;
             // 
-            // openCloseSpbtn
+            // btnSearch
             // 
-            this.openCloseSpbtn.Enabled = false;
-            this.openCloseSpbtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.openCloseSpbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.openCloseSpbtn.Location = new System.Drawing.Point(9, 18);
-            this.openCloseSpbtn.Name = "openCloseSpbtn";
-            this.openCloseSpbtn.Size = new System.Drawing.Size(130, 40);
-            this.openCloseSpbtn.TabIndex = 17;
-            this.openCloseSpbtn.Text = "Open";
-            this.openCloseSpbtn.UseVisualStyleBackColor = true;
+            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearch.Location = new System.Drawing.Point(9, 18);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(130, 40);
+            this.btnSearch.TabIndex = 17;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // groupBox1
             // 
@@ -333,21 +333,21 @@
             this.btnGetNthData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnGetNthData.UseVisualStyleBackColor = true;
             // 
-            // groupBox3
+            // grpBoxFlow
             // 
-            this.groupBox3.Controls.Add(this.numericUpDown1);
-            this.groupBox3.Controls.Add(this.btnGetNthData);
-            this.groupBox3.Controls.Add(this.btnGetDataInfo);
-            this.groupBox3.Controls.Add(this.btnChkConn);
-            this.groupBox3.Controls.Add(this.btnGetDeviceID);
-            this.groupBox3.Controls.Add(this.btnLogin);
-            this.groupBox3.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.groupBox3.Location = new System.Drawing.Point(155, 32);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(426, 159);
-            this.groupBox3.TabIndex = 27;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Data Transmit Flow";
+            this.grpBoxFlow.Controls.Add(this.numericUpDown1);
+            this.grpBoxFlow.Controls.Add(this.btnGetNthData);
+            this.grpBoxFlow.Controls.Add(this.btnGetDataInfo);
+            this.grpBoxFlow.Controls.Add(this.btnChkConn);
+            this.grpBoxFlow.Controls.Add(this.btnGetDeviceID);
+            this.grpBoxFlow.Controls.Add(this.btnLogin);
+            this.grpBoxFlow.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.grpBoxFlow.Location = new System.Drawing.Point(155, 32);
+            this.grpBoxFlow.Name = "grpBoxFlow";
+            this.grpBoxFlow.Size = new System.Drawing.Size(426, 159);
+            this.grpBoxFlow.TabIndex = 27;
+            this.grpBoxFlow.TabStop = false;
+            this.grpBoxFlow.Text = "Data Transmit Flow";
             // 
             // numericUpDown1
             // 
@@ -367,13 +367,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 461);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.grpBoxFlow);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Name = "DC_MainForm";
             this.Text = "DC_MainForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DC_MainForm_FormClosing);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -382,7 +383,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
+            this.grpBoxFlow.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -407,7 +408,7 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button refreshbtn;
-        private System.Windows.Forms.Button openCloseSpbtn;
+        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button sendbtn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button clearReceivebtn;
@@ -418,7 +419,7 @@
         private System.Windows.Forms.Button btnGetDeviceID;
         private System.Windows.Forms.Button btnGetDataInfo;
         private System.Windows.Forms.Button btnGetNthData;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox grpBoxFlow;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
     }
 }
