@@ -226,6 +226,7 @@
             this.clearReceivebtn.TabIndex = 11;
             this.clearReceivebtn.Text = "Clear";
             this.clearReceivebtn.UseVisualStyleBackColor = true;
+            this.clearReceivebtn.Click += new System.EventHandler(this.clearReceivebtn_Click);
             // 
             // receivetbx
             // 
@@ -241,11 +242,13 @@
             this.receivetbx.Size = new System.Drawing.Size(578, 191);
             this.receivetbx.TabIndex = 9;
             this.receivetbx.TabStop = false;
+            this.receivetbx.TextChanged += new System.EventHandler(this.receivetbx_TextChanged);
             // 
             // statustimer
             // 
             this.statustimer.Enabled = true;
             this.statustimer.Interval = 1000;
+            this.statustimer.Tick += new System.EventHandler(this.statustimer_Tick);
             // 
             // btnChkConn
             // 

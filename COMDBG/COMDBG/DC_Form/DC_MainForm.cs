@@ -127,7 +127,7 @@ namespace COMDBG.DC_Form
             {
                 receivetbx.AppendText("-");
             }
-            receivetbx.AppendText(IController.Bytes2Hex(e.receivedBytes));
+            receivetbx.AppendText(IController.Bytes2Hex(e.receivedBytes)+Environment.NewLine);
             //update status bar
             receiveBytesCount += e.receivedBytes.Length;
             toolStripStatusRx.Text = "Received: " + receiveBytesCount.ToString();
@@ -270,5 +270,22 @@ namespace COMDBG.DC_Form
             controller.CloseSerialPort();
         }
 
+        private void receivetbx_TextChanged(object sender, EventArgs e)
+        {
+            receivetbx.SelectionStart = receivetbx.Text.Length;
+            receivetbx.ScrollToCaret();
+        }
+
+        private void statustimer_Tick(object sender, EventArgs e)
+        {
+            this.statusTimeLabel.Text = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+        }
+
+        private void clearReceivebtn_Click(object sender, EventArgs e)
+        {
+            receivetbx.Text = "";
+            toolStripStatusRx.Text = "Received: 0";
+            receiveBytesCount = 0;
+        }
     }
 }
