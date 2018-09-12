@@ -51,7 +51,7 @@ namespace COMDBG
             //MainForm view = new MainForm();
             DC_MainForm view = new DC_MainForm();
             view.StartPosition = FormStartPosition.CenterScreen;
-            IController controller = new IController(view);
+            IController_DC controller = new IController_DC(view);
             
             Application.Run(view);
         }

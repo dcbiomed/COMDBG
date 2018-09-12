@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace COMDBG.DC_Form
 {
-    public interface IView
+    public interface IView_DC
     {
-        void SetController(IController controller);
+        void SetController(IController_DC controller);
         //Open serial port event
         void OpenComEvent(Object sender, SerialPortEventArgs e);
         //Close serial port event
@@ -20,9 +20,9 @@ namespace COMDBG.DC_Form
         //Serial port receive data event
         void ComReceiveDataEvent(Object sender, SerialPortEventArgs e);
     }
-    public partial class DC_MainForm : Form, IView
+    public partial class DC_MainForm : Form, IView_DC
     {
-        private IController controller;
+        private IController_DC controller;
         private int sendBytesCount = 0;
         private int receiveBytesCount = 0;
         private string dcDeviceName = "Prolific USB-to-Serial Comm Port";
@@ -44,7 +44,7 @@ namespace COMDBG.DC_Form
         /// Set controller
         /// </summary>
         /// <param name="controller"></param>
-        public void SetController(IController controller)
+        public void SetController(IController_DC controller)
         {
             this.controller = controller;
         }
