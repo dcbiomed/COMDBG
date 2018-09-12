@@ -34,6 +34,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using COMDBG.DC_Form;
 
 namespace COMDBG
 {
@@ -47,7 +48,8 @@ namespace COMDBG
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            MainForm view = new MainForm();
+            //MainForm view = new MainForm();
+            DC_MainForm view = new DC_MainForm();
             view.StartPosition = FormStartPosition.CenterScreen;
             IController controller = new IController(view);
             

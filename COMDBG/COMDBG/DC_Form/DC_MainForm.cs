@@ -20,7 +20,7 @@ namespace COMDBG.DC_Form
         //Serial port receive data event
         void ComReceiveDataEvent(Object sender, SerialPortEventArgs e);
     }
-    public partial class DC_MainForm : Form
+    public partial class DC_MainForm : Form, IView
     {
         private IController controller;
         private int sendBytesCount = 0;
@@ -40,7 +40,14 @@ namespace COMDBG.DC_Form
             this.MaximizeBox = false;
             this.MinimizeBox = false;
         }
-
+        /// <summary>
+        /// Set controller
+        /// </summary>
+        /// <param name="controller"></param>
+        public void SetController(IController controller)
+        {
+            this.controller = controller;
+        }
         private void SearchDCDevice()
         {
             try
@@ -75,6 +82,84 @@ namespace COMDBG.DC_Form
                     }
                 }
             }
+        }
+        /// <summary>
+        /// update status bar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OpenComEvent(Object sender, SerialPortEventArgs e)
+        {
+            if (this.InvokeRequired)
+            {
+                Invoke(new Action<Object, SerialPortEventArgs>(OpenComEvent), sender, e);
+                return;
+            }
+
+            if (e.isOpend)  //Open successfully
+            {
+                statuslabel.Text = " Opend";
+                openCloseSpbtn.Text = "Close";
+                sendbtn.Enabled = true;
+                refreshbtn.Enabled = false;
+            }
+            else    //Open failed
+            {
+                statuslabel.Text = "Open failed !";
+                sendbtn.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// update status bar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void CloseComEvent(Object sender, SerialPortEventArgs e)
+        {
+            if (this.InvokeRequired)
+            {
+                Invoke(new Action<Object, SerialPortEventArgs>(CloseComEvent), sender, e);
+                return;
+            }
+
+            if (!e.isOpend) //close successfully
+            {
+                statuslabel.Text = " Closed";
+                openCloseSpbtn.Text = "Open";
+                sendbtn.Enabled = false;
+                refreshbtn.Enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// Display received data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void ComReceiveDataEvent(Object sender, SerialPortEventArgs e)
+        {
+            if (this.InvokeRequired)
+            {
+                try
+                {
+                    Invoke(new Action<Object, SerialPortEventArgs>(ComReceiveDataEvent), sender, e);
+                }
+                catch (System.Exception)
+                {
+                    //disable form destroy exception
+                }
+                return;
+            }
+            //display as hex
+            if (receivetbx.Text.Length > 0)
+            {
+                receivetbx.AppendText("-");
+            }
+            receivetbx.AppendText(IController.Bytes2Hex(e.receivedBytes));
+            //update status bar
+            receiveBytesCount += e.receivedBytes.Length;
+            toolStripStatusRx.Text = "Received: " + receiveBytesCount.ToString();
         }
     }
 }
