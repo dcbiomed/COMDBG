@@ -31,6 +31,17 @@ namespace COMDBG.DC_Form
         private int countPort = 0;
         private string connPortName = string.Empty;
 
+        byte[] cmd;
+        enum CmdTable : byte
+        {
+            ChkConnection = 0x60,
+            GetDeviceID = 0x65,
+            GetDataInfo = 0x72,
+            GetNthPageData = 0x73,
+            SetClrFlag = 0x74,
+            LoginPwd1 = 0x75 // DCBM123
+        }
+
         public DC_MainForm()
         {
             InitializeComponent();
@@ -66,14 +77,10 @@ namespace COMDBG.DC_Form
             if (e.isOpend)  //Open successfully
             {
                 statuslabel.Text = " Opend";
-                btnSearch.Text = "Close";
-                sendbtn.Enabled = true;
-                refreshbtn.Enabled = false;
             }
             else    //Open failed
             {
                 statuslabel.Text = "Open failed !";
-                sendbtn.Enabled = false;
             }
         }
 
@@ -93,9 +100,6 @@ namespace COMDBG.DC_Form
             if (!e.isOpend) //close successfully
             {
                 statuslabel.Text = " Closed";
-                btnSearch.Text = "Open";
-                sendbtn.Enabled = false;
-                refreshbtn.Enabled = true;
             }
         }
 
@@ -178,10 +182,71 @@ namespace COMDBG.DC_Form
                 }
             }
         }
-
+        private void btnPool_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            switch (btn.Name)
+            {
+                case "btnChkConn":
+                    cmd = new byte[4];
+                    cmd = GetFullBytes(cmd, CmdTable.ChkConnection);
+                    break;
+                case "btnLogin":
+                    cmd = new byte[4 + 7];
+                    cmd[2] = 0x44;//D
+                    cmd[3] = 0x43;//C
+                    cmd[4] = 0x42;//B
+                    cmd[5] = 0x4D;//M
+                    cmd[6] = 0x31;//1
+                    cmd[7] = 0x32;//2
+                    cmd[8] = 0x33;//3
+                    cmd = GetFullBytes(cmd, CmdTable.LoginPwd1);
+                    break;
+                case "btnGetDeviceID":
+                    cmd = new byte[4];
+                    cmd = GetFullBytes(cmd, CmdTable.GetDeviceID);
+                    break;
+                case "btnGetDataInfo":
+                    cmd = new byte[4];
+                    cmd = GetFullBytes(cmd, CmdTable.GetDataInfo);
+                    break;
+                case "btnGetNthData":
+                    int xth;
+                    cmd = new byte[4 + 2];
+                    //int.TryParse(tbxPageXth.Text, out xth);
+                    //cmd[3] = (byte)(xth & 0x3F);
+                    cmd = GetFullBytes(cmd, CmdTable.GetNthPageData);
+                    break;
+                case "btnSetClearFlag":
+                    cmd = new byte[4];
+                    cmd = GetFullBytes(cmd, CmdTable.SetClrFlag);
+                    break;
+            }
+            int newLen = cmd.Length + 3;//in order to clear meter buffer
+            Array.Resize(ref cmd, newLen);
+        }
+        byte[] GetFullBytes(byte[] dataBytes, CmdTable cmd)
+        {
+            byte[] res = dataBytes;
+            res[0] = 0xFF;//Start
+            res[1] = (byte)cmd;//Command
+            res[res.Length - 2] = GetCheckSumXor(res);//CheckSum
+            res[res.Length - 1] = 0xFE;
+            return res;
+        }
+        byte GetCheckSumXor(byte[] raw)
+        {
+            byte result = raw[1];
+            for (int i = 2; i < raw.Length - 2; i++)
+            {
+                result ^= raw[i];
+            }
+            return result;
+        }
         private void DC_MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             controller.CloseSerialPort();
         }
+
     }
 }

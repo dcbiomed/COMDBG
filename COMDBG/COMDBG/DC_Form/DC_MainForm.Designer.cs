@@ -44,12 +44,10 @@
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.refreshbtn = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.clearReceivebtn = new System.Windows.Forms.Button();
             this.receivetbx = new System.Windows.Forms.TextBox();
-            this.sendbtn = new System.Windows.Forms.Button();
             this.statustimer = new System.Windows.Forms.Timer(this.components);
             this.btnChkConn = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
@@ -185,9 +183,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.refreshbtn);
             this.groupBox2.Controls.Add(this.btnSearch);
-            this.groupBox2.Controls.Add(this.sendbtn);
             this.groupBox2.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.groupBox2.Location = new System.Drawing.Point(3, 32);
             this.groupBox2.Name = "groupBox2";
@@ -196,23 +192,13 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "COM";
             // 
-            // refreshbtn
-            // 
-            this.refreshbtn.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.refreshbtn.Location = new System.Drawing.Point(9, 65);
-            this.refreshbtn.Name = "refreshbtn";
-            this.refreshbtn.Size = new System.Drawing.Size(130, 40);
-            this.refreshbtn.TabIndex = 22;
-            this.refreshbtn.Text = "Refersh";
-            this.refreshbtn.UseVisualStyleBackColor = true;
-            // 
             // btnSearch
             // 
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearch.Location = new System.Drawing.Point(9, 18);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(130, 40);
+            this.btnSearch.Size = new System.Drawing.Size(130, 132);
             this.btnSearch.TabIndex = 17;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -255,18 +241,6 @@
             this.receivetbx.Size = new System.Drawing.Size(578, 191);
             this.receivetbx.TabIndex = 9;
             this.receivetbx.TabStop = false;
-            // 
-            // sendbtn
-            // 
-            this.sendbtn.AutoSize = true;
-            this.sendbtn.Enabled = false;
-            this.sendbtn.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.sendbtn.Location = new System.Drawing.Point(9, 112);
-            this.sendbtn.Name = "sendbtn";
-            this.sendbtn.Size = new System.Drawing.Size(130, 40);
-            this.sendbtn.TabIndex = 7;
-            this.sendbtn.Text = "Send";
-            this.sendbtn.UseVisualStyleBackColor = true;
             // 
             // statustimer
             // 
@@ -380,7 +354,6 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.grpBoxFlow.ResumeLayout(false);
@@ -407,9 +380,7 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button refreshbtn;
         private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.Button sendbtn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button clearReceivebtn;
         private System.Windows.Forms.TextBox receivetbx;
