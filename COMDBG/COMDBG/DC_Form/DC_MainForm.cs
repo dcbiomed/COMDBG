@@ -127,7 +127,7 @@ namespace COMDBG.DC_Form
             {
                 receivetbx.AppendText("-");
             }
-            receivetbx.AppendText(IController.Bytes2Hex(e.receivedBytes)+Environment.NewLine);
+            receivetbx.AppendText(IController.Bytes2Hex(e.receivedBytes));
             //update status bar
             receiveBytesCount += e.receivedBytes.Length;
             toolStripStatusRx.Text = "Received: " + receiveBytesCount.ToString();

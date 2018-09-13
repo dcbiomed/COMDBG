@@ -146,7 +146,7 @@
             this.receivedDataToolStripMenuItem,
             this.sendDataToolStripMenuItem});
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.saveToolStripMenuItem.Text = "Save";
             // 
             // receivedDataToolStripMenuItem
@@ -164,7 +164,7 @@
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             // 
             // aboutToolStripMenuItem1
@@ -261,6 +261,7 @@
             this.btnChkConn.Text = "1. Check Connection";
             this.btnChkConn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnChkConn.UseVisualStyleBackColor = true;
+            this.btnChkConn.Click += new System.EventHandler(this.btnPool_Click);
             // 
             // btnLogin
             // 
@@ -273,6 +274,7 @@
             this.btnLogin.Text = "2. Login";
             this.btnLogin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnLogin.UseVisualStyleBackColor = true;
+            this.btnLogin.Click += new System.EventHandler(this.btnPool_Click);
             // 
             // btnGetDeviceID
             // 
@@ -285,6 +287,7 @@
             this.btnGetDeviceID.Text = "3. Get Device ID";
             this.btnGetDeviceID.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnGetDeviceID.UseVisualStyleBackColor = true;
+            this.btnGetDeviceID.Click += new System.EventHandler(this.btnPool_Click);
             // 
             // btnGetDataInfo
             // 
@@ -297,6 +300,7 @@
             this.btnGetDataInfo.Text = "4. Get Data Info";
             this.btnGetDataInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnGetDataInfo.UseVisualStyleBackColor = true;
+            this.btnGetDataInfo.Click += new System.EventHandler(this.btnPool_Click);
             // 
             // btnGetNthData
             // 
@@ -309,6 +313,7 @@
             this.btnGetNthData.Text = "5. Get Nth page data";
             this.btnGetNthData.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnGetNthData.UseVisualStyleBackColor = true;
+            this.btnGetNthData.Click += new System.EventHandler(this.btnPool_Click);
             // 
             // grpBoxFlow
             // 
